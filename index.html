@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>CE賓果遊戲</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #bingo {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-gap: 5px;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      cursor: pointer;
+      user-select: none;
+      font-size: 14px;
+      text-align: center;
+    }
+    .selected {
+      background-color: lightgreen;
+    }
+    .wrong {
+      background-color: lightcoral;
+      cursor: not-allowed;
+    }
+    #question-area {
+      margin-top: 30px;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>CE賓果遊戲</h1>
+
+<div id="bingo"></div>
+
+<div id="question-area" style="display: none;">
+  <h3 id="question-text"></h3>
+  <div id="options"></div>
+  <button onclick="submitAnswer()">確定</button>
+</div>
+
+<h2 id="status-text">完成 0 條線</h2>
+<h2 id="result-text" style="color: red;"></h2>
+
+<script>
+const questions = [
+  {
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+  {
+    question: "下列哪一個是導體？",
+    options: ["A. 塑膠", "B. 木頭", "C. 銅", "D. 橡膠"],
+    answer: "C"
+  },
+  {
+    question: "鋼材的主要成分是？",
+    options: ["A. 鋁", "B. 鐵", "C. 銅", "D. 錫"],
+    answer: "B"
+  },
+  {
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+  {
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+{
+    question: "哪一個是電壓的單位？",
+    options: ["A. 安培", "B. 伏特", "C. 歐姆", "D. 焦耳"],
+    answer: "B"
+  },
+];
+
+let selectedCells = new Set();
+let board = [];
+let currentCell = null;
+let currentAnswer = null;
+let startTime = null;
+
+function shuffle(arr) {
+  return arr.sort(() => Math.random() - 0.5);
+}
+
+function init() {
+  const bingo = document.getElementById('bingo');
+  bingo.innerHTML = "";
+  board = shuffle(questions).slice(0, 16);
+  board.forEach((q, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerText = `題目${idx+1}`;
+    cell.dataset.index = idx;
+    cell.onclick = () => openQuestion(cell, idx);
+    bingo.appendChild(cell);
+  });
+}
+
+function openQuestion(cell, idx) {
+  if (startTime === null) {
+    startTime = Date.now();
+  }
+  if (cell.classList.contains('selected') || cell.classList.contains('wrong')) return;
+
+  currentCell = cell;
+  currentAnswer = board[idx].answer;
+  document.getElementById('question-text').innerText = board[idx].question;
+  
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = "";
+  board[idx].options.forEach(opt => {
+    const btn = document.createElement('input');
+    btn.type = 'radio';
+    btn.name = 'option';
+    btn.value = opt[0];
+    btn.id = opt;
+    
+    const label = document.createElement('label');
+    label.innerText = opt;
+    label.htmlFor = opt;
+
+    optionsDiv.appendChild(btn);
+    optionsDiv.appendChild(label);
+    optionsDiv.appendChild(document.createElement('br'));
+  });
+
+  document.getElementById('question-area').style.display = 'block';
+}
+
+function submitAnswer() {
+  const selectedOption = document.querySelector('input[name="option"]:checked');
+  if (!selectedOption) {
+    alert("請選一個答案！");
+    return;
+  }
+  
+  if (selectedOption.value === currentAnswer) {
+    currentCell.classList.add('selected');
+    selectedCells.add(parseInt(currentCell.dataset.index));
+  } else {
+    currentCell.classList.add('wrong');
+    currentCell.onclick = null; // 鎖定
+  }
+
+  document.getElementById('question-area').style.display = 'none';
+  checkWin();
+}
+
+function checkWin() {
+  const lines = [
+    [0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15], // 橫
+    [0,4,8,12], [1,5,9,13], [2,6,10,14], [3,7,11,15], // 直
+    [0,5,10,15], [3,6,9,12] // 斜
+  ];
+  let count = 0;
+  lines.forEach(line => {
+    if (line.every(idx => selectedCells.has(idx))) {
+      count++;
+    }
+  });
+
+  document.getElementById('status-text').innerText = `完成 ${count} 條線`;
+
+  if (count >= 3) {
+    const endTime = Date.now();
+    const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(2);
+    document.getElementById('result-text').innerText = `恭喜完成三條線！用時 ${elapsedSeconds} 秒`;
+    alert(`恭喜完成三條線！用時 ${elapsedSeconds} 秒`);
+  }
+}
+
+init();
+</script>
+
+</body>
+</html>
